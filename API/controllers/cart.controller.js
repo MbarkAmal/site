@@ -7,9 +7,12 @@ exports.addtocart = async (req, res) => {
         const { userID, productId, quantity } = req.body;
 
         // Validate request body
-        if (!userID || !productId || !quantity) {
+        if (userID === undefined || productId === undefined || quantity === undefined) {
             return res.status(400).json({ error: 'Invalid request body' });
         }
+
+        // If userID is null or undefined, set it to null
+        const userIdToSave = userID || null;
 
         // Fetch product details from database
         const product = await Product.findById(productId);
@@ -17,28 +20,19 @@ exports.addtocart = async (req, res) => {
             return res.status(404).json({ error: `Product with ID ${productId} not found` });
         }
 
-        // Fetch user details from database
-        const user = await User.findById(userID);
-        if (!user) {
-            return res.status(400).json({ error: `User with ID ${userID} not found` });
-        }
-
         // Calculate the total price
-        const totalPrice = product.price * quantity;
+        const total = product.price * quantity;
 
         // Create cart item with user and product details
         const cartItem = {
-            userID: {
-                _id: userID,
-                username: user.username
-            },
+            userID: userIdToSave,
             products: [{
                 _id: productId,
                 productName: product.productName,
                 price: product.price
             }],
-            quantity,
-            total: totalPrice
+            quantity: quantity,
+            total: total, // Set the total price here
         };
 
         // Create the cart item in the database
@@ -50,6 +44,7 @@ exports.addtocart = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
 
 
 exports.getCartDetail = async (req, res) => {

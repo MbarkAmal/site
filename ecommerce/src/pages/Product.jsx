@@ -176,26 +176,36 @@ const Product = () => {
   const handleOrder = async () => {
     try {
       let user_id = localStorage.getItem('user_data');
-    user_id = JSON.parse(user_id); // Parse as JSON object
-
+  
+      // If user_id is null or an empty string, set it to an empty object
+      if (!user_id) {
+        user_id = {};
+      } else {
+        // Parse user_id as JSON
+        user_id = JSON.parse(user_id);
+      }
+  
       console.log(user_id);
   
-      // If userID is available in localStorage, use it. Otherwise, send an empty string.
+      // Send the request with the userID object (either parsed from localStorage or an empty object)
       const response = await axios.post('http://localhost:4000/Cart/addtocart', {
-        userID: user_id || '', // Send empty string if user_id is not available
+        userID: user_id,
         productId: id,
         quantity: stock,
       });
-      console.log(userID)
   
       dispatch(addProduct(response.data));
   
       console.log(response.data);
     } catch (error) {
       console.error('Error adding product to cart:', error);
-      
+      console.error('Error adding product to cart:', error);
+      console.error('Server error:', error.response.data);
     }
   };
+  
+  
+   
   
   return (
     <Container>

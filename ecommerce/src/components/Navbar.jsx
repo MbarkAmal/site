@@ -69,13 +69,14 @@ const Navbar = () => {
 
   console.log(quantity);
 
-  const [connectuser , setConnectuser] =useState({});
+ { /*const [connectuser , setConnectuser] =useState({});
   const getuser = () =>{
     setConnectuser (JSON.parse(localStorage.getItem("user_data")))
-  }
+  }*/
+}
 
   useEffect(() =>{
-    getuser();
+   // getuser();
   }, []);
 
   return (
@@ -100,7 +101,7 @@ const Navbar = () => {
             <MenuItem>Log In</MenuItem>
           </Link>
           <Link>
-          <MenuItem>{connectuser.username}</MenuItem>
+          <MenuItem></MenuItem>
 
           </Link>
           <Link to="/cart">
