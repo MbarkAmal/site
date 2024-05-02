@@ -17,11 +17,13 @@ const productRouter = require ('./routes/product.router');
 const cartRouter = require ('./routes/cart.router');
 const authRouter = require ('./routes/auth.router');
 const userRouter = require('./routes/user.router');
+const staticRouter = require('./routes/static.router')
 
 app.use('/Products',productRouter)
 app.use('/Cart',cartRouter)
 app.use('/auth',authRouter)
 app.use('/user',userRouter)
+app.use('/static',staticRouter)
 
 //const product = require ('./models/Product')
 // connect to db 

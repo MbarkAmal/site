@@ -9,7 +9,7 @@ const userSlice = createSlice ({
     reducers: {
         getUser : (state , action) =>{
             state.users =action.payload.map(user => {
-                return {id : user._id , username : user.username , email: user.email , password : user.password ,photo_user: user.photo_user, createdAt: user.createdAt}
+                return {id : user._id , username : user.username , email: user.email , password : user.password , photo_user: user.photo_user, createdAt: user.createdAt}
             })
 
         },
@@ -31,7 +31,7 @@ const userSlice = createSlice ({
                 username : action.payload.username,
                 email : action.payload.email,
                 password : action.payload.password,
-                photo_user : action.payload.photo_user
+               // photo_user : action.payload.photo_user
             }
         }
     }

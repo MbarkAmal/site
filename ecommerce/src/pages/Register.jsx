@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import {  useNavigate  } from 'react-router-dom'
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { useDispatch } from "react-redux";
-import { register } from "../redux/apiCalls";
+//import { register } from "../redux/apiCalls";
 const Container = styled.div`
   width: 100%;
   height: 100vh;
@@ -56,19 +57,24 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert("Passwords do not match");
       return;
     }
-    const user = { username, email, password, name, lastName };
-    console.log(user);
-    await register(dispatch, user); 
-    navigate('/login');
-    
+    try {
+      const user = { username, email, password, name, lastName };
+      console.log(user);
+      const response = await axios.post('http://localhost:4000/auth/register', user);
+      console.log(response);
+      navigate('/login');
+    } catch (error) {
+      console.error('Error during registration:', error.response.data);
+      // Handle error, maybe set error state to display error message
+    }
   };
-
   return (
     <Container>
       <Wrapper>

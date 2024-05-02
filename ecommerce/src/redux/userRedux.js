@@ -26,7 +26,7 @@ const userSlice = createSlice({
     },
     registerSuccess: (state, action) => {
       state.isFetching = false;
-      state.currentUser = action.payload; // Optionally login user upon registration
+      state.currentUSER = action.payload; // Optionally login user upon registration
     },
     registerFailure: (state) => {
       state.isFetching = false;

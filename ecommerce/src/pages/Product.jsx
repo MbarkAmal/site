@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from 'axios';
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Announcement from "../components/Announcement";
@@ -126,13 +127,22 @@ const Button = styled.div`
 const Product = () => {
   const location = useLocation();
   const id = location.pathname.split("/")[2];
-  const [clickedIndex, setClickedIndex] = useState(null);
   const [productName, setProductName] = useState(null);
-  const [desc , setDesc] = useState('');
-  const [price, setPrice] = useState(null); 
+  const [desc, setDesc] = useState('');
+  const [price, setPrice] = useState(null);
   const [weight, setWeight] = useState('');
   const [stock, setStock] = useState(1);
+  const [userID, setUserID] = useState("");
+
+
   const dispatch = useDispatch();
+  {/*useEffect(() => {
+    const storedUserID = localStorage.getItem('user_data');
+    if (storedUserID) {
+      setUserID(storedUserID);
+    }
+  }, []);
+*/}
   useEffect(() => {
     const getProduct = async () => {
       try {
@@ -163,9 +173,30 @@ const Product = () => {
       setStock(1);
     }
   };
-  const handleOrder = () => {
-    dispatch(addProduct({ ...productName, stock }));
+  const handleOrder = async () => {
+    try {
+      let user_id = localStorage.getItem('user_data');
+    user_id = JSON.parse(user_id); // Parse as JSON object
+
+      console.log(user_id);
+  
+      // If userID is available in localStorage, use it. Otherwise, send an empty string.
+      const response = await axios.post('http://localhost:4000/Cart/addtocart', {
+        userID: user_id || '', // Send empty string if user_id is not available
+        productId: id,
+        quantity: stock,
+      });
+      console.log(userID)
+  
+      dispatch(addProduct(response.data));
+  
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error adding product to cart:', error);
+      
+    }
   };
+  
   return (
     <Container>
       <Navbar />

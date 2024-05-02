@@ -27,7 +27,7 @@ const Products = ({ cat, sort }) => {
   
   return (
     <Container>
-      {products.map((item) => <Product item={item} key={item._id} />)}
+      <h1>ghjk</h1>{products.map((item) => <Product item={item} key={item._id} />)}
     </Container>
   );
 };

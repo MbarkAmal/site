@@ -22,18 +22,18 @@ const UpdateUser = ()=> {
     const [username , setUsername] = useState('')
     const [email , setEmail] = useState('')
     const [password , setPassword] = useState('')
-    const [photo_user , setPhoto_user] = useState ('')
+  //  const [photo_user , setPhoto_user] = useState ('')
     const navigate = useNavigate();
 
 const getsingleUser = async (id) =>{
 
   try {
-    const {data} = await axios.get(`http://localhost:4000/User/getoneuser/${id}`);
+    const {data} = await axios.get(`http://localhost:4000/user/getoneuser/${id}`);
     const {username , email , password ,photo_user} = data.result;
     setUsername(username);
     setEmail(email);
     setPassword (password);
-    setPhoto_user(photo_user);
+  //  setPhoto_user(photo_user);
 
   } catch (err){
     console.log(err)
@@ -47,33 +47,38 @@ useEffect(() => {
     const dispatch = useDispatch()
     
     const handleUpdate = async (e) => {
-        e.preventDefault();
-
-        try{
-          const formData = new FormData();
-          formData.append('username',username);
-          formData.append('email', email);
-          formData.append('password', password);
-          formData.append('photo_user', photo_user)
-
-      const response = await axios.put(`http://localhost:4000/User/updateUser/${id}`,formData , {
-        headers: {
-          'Content-Type': 'multipart/form-data' // Set the content type for FormData
-        }
-      });
-          if (response.status === 200 ) {
-           dispatch (updateUser(response.data));
-           navigate('/User');
+      e.preventDefault();
+  
+      try {
+          // Create an object containing the updated user data
+          const updatedUserData = {
+              username: username,
+              email: email,
+              password: password
+          };
+  
+          // Send a PUT request to update the user data
+          const response = await axios.put(`http://localhost:4000/user/updateUser/${id}`, updatedUserData);
+  
+          // Log the response data for debugging
+          console.log("Update User Response:", response.data);
+  
+          // Check if the update was successful (status code 200)
+          if (response.status === 200) {
+              // Dispatch an action to update the user in the Redux store
+              dispatch(updateUser(response.data.user));
+              // Navigate to the '/User' route upon successful update
+              navigate('/User');
           } else {
-            console.error('Failed to update user:' , response.statusText);
+              // Log an error message if the update failed
+              console.error('Failed to update user:', response.statusText);
           }
-
-        } catch (error) {
+      } catch (error) {
+          // Log any errors that occur during the update process
           console.error('Error updating user:', error);
-
-        } 
-    }
-
+      }
+  }
+  
       
 
 
@@ -166,11 +171,10 @@ useEffect(() => {
                 <div className="col-75">
                   <input
                     type="text"
-                    placeholder="poste.."
- />
+                    placeholder="poste.." />
                 </div>
               </div>
-              <div className="row">
+           {  /* <div className="row">
             <div className="col-25">
               <label htmlFor="photo" className="file-upload"> Image</label>
             </div>
@@ -178,23 +182,25 @@ useEffect(() => {
               <input id="file-upload" type="file"  accept="image/*" 
                onChange={(e) => setPhoto_user(e.target.files[0])}/>
             </div>
-          </div>
-          <div className="row">
-    <div className="col-25">
-        <label htmlFor="photo">Image</label>
-    </div>
-    {photo_user && photo_user instanceof File ? (
-    <div className="col-75">
-        <img src={URL.createObjectURL(photo_user)} alt="Uploaded" style={{ width: '170px', height: '190px', display: 'flex', borderRadius: '10px' }} />
-    </div>
-) : (
-    <div className="col-75" >
-        <img src={`http://localhost:4000/User/userPhoto/${id}`} alt="Default" 
-        style={{ width: '170px', height: '150px', paddingTop : '10px',display: 'flex', borderRadius: '10px' }} />
-    </div>
-)}
+            </div>
+            <div className="row">
+                  <div className="col-25">
+                      <label htmlFor="photo">Image</label>
+                  </div>
+                  {photo_user && photo_user instanceof File ? (
+                  <div className="col-75">
+                      <img src={URL.createObjectURL(photo_user)} alt="Uploaded" style={{ width: '170px', height: '190px', display: 'flex', borderRadius: '10px' }} />
+                  </div>
+              ) : (
+                  <div className="col-75" >
+                      <img src={`http://localhost:4000/User/userPhoto/${id}`} alt="Default" 
+                      style={{ width: '170px', height: '150px', paddingTop : '10px',display: 'flex', borderRadius: '10px' }} />
+                  </div>
+              )}
 
-</div>
+              </div> 
+            */}
+
 
               <div className="update_btn">
                 <button className="btnUP" type="submit">

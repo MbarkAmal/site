@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import Badge from "@mui/material/Badge";
@@ -69,6 +69,15 @@ const Navbar = () => {
 
   console.log(quantity);
 
+  const [connectuser , setConnectuser] =useState({});
+  const getuser = () =>{
+    setConnectuser (JSON.parse(localStorage.getItem("user_data")))
+  }
+
+  useEffect(() =>{
+    getuser();
+  }, []);
+
   return (
     <Container>
       <Wrapper>
@@ -81,6 +90,7 @@ const Navbar = () => {
         </Left>
         <Center>
           <Logo>More Than Buisness</Logo>
+
         </Center>
         <Right>
           <Link to="/register">
@@ -89,7 +99,10 @@ const Navbar = () => {
           <Link to="/login">
             <MenuItem>Log In</MenuItem>
           </Link>
+          <Link>
+          <MenuItem>{connectuser.username}</MenuItem>
 
+          </Link>
           <Link to="/cart">
             <MenuItem>
               <Badge badgeContent={quantity} color="primary">

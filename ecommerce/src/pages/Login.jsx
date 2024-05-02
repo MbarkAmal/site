@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import {  useNavigate  } from 'react-router-dom'
+import axios from 'axios';
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { login } from "../redux/apiCalls";
@@ -57,14 +59,37 @@ const Error = styled.span`
   color: red;
 `;
 const Login = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const { isFetching, error } = useSelector((state) => state.user);
-  const handleClick = (e) => {
+
+  const handleClick = async (e) => {
     e.preventDefault();
-    login(dispatch, { username, password });
+    
+    try {
+      const response = await axios.post('http://localhost:4000/auth/login', {
+        username: username,
+        password: password
+      });
+      
+      //const { user, accessToken } = response.data;
+      console.log(response);
+      //save data user in localstorage 
+
+      localStorage.setItem('user_data', JSON.stringify(response.data.user))
+      localStorage.setItem('token', response.data.accessToken)
+
+  //dispatch(login(response.data));
+      navigate('/');
+
+    } catch (error) {
+      console.error('Error during login:', error);
+      // Handle error, maybe set error state to display error message
+    }
   };
+
 
   return (
     <Container>

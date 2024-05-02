@@ -9,11 +9,21 @@ const cartSlice = createSlice({
   },
   reducers: {
     addProduct: (state, action) => {
-      console.log("Current state:", state);
-      console.log("Action received:", action);
+      const { productId, productName, price, quantity } = action.payload;
+      
+      const existingProductIndex = state.products.findIndex(product => product.productId === productId);
+
+      if (existingProductIndex !== -1) {
+        // If the product already exists in the cart, update its quantity and total price
+        state.products[existingProductIndex].quantity += quantity;
+        state.total += price * quantity;
+      } else {
+        // If the product is not in the cart, add it
+        state.products.push({ productId, productName, price,  });
+        state.total += price * quantity;
+      }
+
       state.quantity += 1;
-      state.products.push(action.payload);
-      state.total += action.payload.price * action.payload.quantity;
     },
   },
 });

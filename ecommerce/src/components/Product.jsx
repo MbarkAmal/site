@@ -94,7 +94,7 @@ const Product = ({ item }) => {
           <FavoriteBorderOutlinedIcon />
         </Icon>
       </Info>
-      <Name>{item.productName}</Name>
+      <Name>{item.productName} <h1>hvhb </h1></Name>
     </Container>
   );
 };
