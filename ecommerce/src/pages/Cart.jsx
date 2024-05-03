@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Announcement from "../components/Announcement";
@@ -6,10 +7,11 @@ import Footer from "../components/Footer";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { mobile } from "../responsive";
-import { useState } from "react";
 import ReactDOM from "react-dom";
 import Remove from "@mui/icons-material/Remove";
 import { useSelector } from "react-redux";
+import { useParams } from 'react-router-dom'; // Import useParams hook from React Router
+
 
 // Add your Stripe public key here
 
@@ -131,79 +133,123 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
-  const cart = useSelector((state) => state.cart);
+  //const cart = useSelector((state) => state.cart);
+
+  const [cart, setCart] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const { userId } = useParams(); 
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        // Retrieve user data from local storage
+        const userData = JSON.parse(localStorage.getItem('user_data'));
+        
+        if (userData && userData._id) {
+          // Extract user ID from user data
+          const storedUserId = userData._id;
+          console.log(storedUserId)
+  
+          // Make a GET request to fetch cart details for the user ID from local storage
+          const response = await axios.get(`http://localhost:4000/Cart/getcart/${storedUserId}`);
+          setCart(response.data); // Update the cart state with fetched data
+          console.log(response.data)
+        } else {
+          console.error('User data or user ID not found in local storage');
+        }
+  
+        setLoading(false); // Set loading to false once data is fetched
+      } catch (error) {
+        console.error('Error fetching cart:', error);
+        setLoading(false); // Set loading to false in case of error
+      }
+    };
+  
+    // Call the fetchCart function
+    fetchCart();
+  }, []); // Empty dependency array ensures useEffect runs only once
+  
   return (
     <Container>
-      <Navbar />
-      <Announcement />
-      <Wrapper>
-        <Title>YOUR BAG</Title>
-        <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
-          <TopTexts>
-            <TopText>Shopping Bag(2)</TopText>
-            <TopText>Your WishList(0)</TopText>
-          </TopTexts>
-          <TopButton type="filled">CHECK OUT NOW</TopButton>
-        </Top>
-        <Bottom>
-          <Info>
-            {cart.products.map((product) => (
-              <Product>
+  <Navbar />
+  <Announcement />
+  <Wrapper>
+    <Title>YOUR BAG</Title>
+    <Top>
+      <TopButton>CONTINUE SHOPPING</TopButton>
+      <TopTexts>
+        <TopText>Shopping Bag(2)</TopText> {/* You can replace the '2' with the actual length of the cart */}
+        <TopText>Your WishList(0)</TopText>
+      </TopTexts>
+      <TopButton type="filled">CHECK OUT NOW</TopButton>
+    </Top>
+    <Bottom>
+      <Info>
+        {cart && Array.isArray(cart) && cart.map((cartItem) => (
+          <React.Fragment key={cartItem._id}>
+            {cartItem.products.map((product) => (
+              <Product key={product._id}>
                 <ProductDetail>
-                  <Image src={product.img} />
+                  {/* Assuming img is not provided in the response */}
+                  {/* <Image src={product.img} /> */}
                   <Details>
                     <ProductName>
-                      <b>Product:</b> {product.title}
+                      <b>Product:</b> {product.productName}
                     </ProductName>
                     <ProductId>
-                      <b>ID:</b>
-                      {product._id}
+                      <b>ID:</b> {product._id}
                     </ProductId>
                     <ProductQuantity>
-                      <b>Quantity:</b> {product.quantity} kg
+                      <b>Quantity:</b> {cartItem.quantity} kg {/* Assuming the quantity is the same for all products in the cart */}
                     </ProductQuantity>
                     <ProductPrice>{product.price} $</ProductPrice>
                   </Details>
                 </ProductDetail>
                 <PriceDetail>
                   <ProductAmountContrainer>
-                    <AddIcon /> <ProductAmount>2</ProductAmount>
+                    <AddIcon /> <ProductAmount>2</ProductAmount> {/* Placeholder values */}
                     <RemoveIcon />
                   </ProductAmountContrainer>
                   <ProductPrice>
-                    {product.price * product.quantity} $
+                    {/* Assuming product.price and cartItem.quantity are numbers */}
+                    {product.price * cartItem.quantity} $
                   </ProductPrice>
                 </PriceDetail>
               </Product>
             ))}
             <Hr />
-          </Info>
+          </React.Fragment>
+        ))}
+      </Info>
+      {/* Assuming Summary should be rendered after all cart items */}
+      <Summary>
+        <SummaryTitle>ORDER NOW</SummaryTitle>
+        {/* Assuming you need to calculate the total price for all cart items */}
+        <SummaryItem>
+          <SummaryItemText>Subtotal</SummaryItemText>
+          <SummaryItemPrice>$ </SummaryItemPrice>
+        </SummaryItem>
+        <SummaryItem>
+          <SummaryItemText>Estimated shipping </SummaryItemText>
+          <SummaryItemPrice>$ 5</SummaryItemPrice>
+        </SummaryItem>
+        <SummaryItem>
+          <SummaryItemText>Shipping Discount</SummaryItemText>
+          <SummaryItemPrice>$ -5</SummaryItemPrice>
+        </SummaryItem>
+        <SummaryItem type="total">
+          <SummaryItemText>Total</SummaryItemText>
+          {/* Assuming you need to calculate the total price for all cart items */}
+          <SummaryItemPrice>$ </SummaryItemPrice>
+        </SummaryItem>
+        <Button>CHECK OUT NOW</Button>
+      </Summary>
+    </Bottom>
+  </Wrapper>
+  <Footer />
+</Container>
 
-          <Summary>
-            <SummaryTitle>ORDER NOW</SummaryTitle>
-            <SummaryItem>
-              <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Estimated shipping </SummaryItemText>
-              <SummaryItemPrice>$ 5</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>$ -5</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem type="total">
-              <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
-            </SummaryItem>
-            <Button>CHECK OUT NOW</Button>
-          </Summary>
-        </Bottom>
-      </Wrapper>
-      <Footer />
-    </Container>
   );
 };
+
+
 export default Cart;

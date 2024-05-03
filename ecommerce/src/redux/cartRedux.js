@@ -36,7 +36,8 @@ const cartSlice = createSlice({
     },
     clearUser: (state) => {
       state.userID = null;
-    }
+    },
+   
   }
 });
 

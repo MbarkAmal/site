@@ -45,14 +45,13 @@ exports.addtocart = async (req, res) => {
     }
 };
 
-
+//get cart detail
 
 exports.getCartDetail = async (req, res) => {
     try {
-        const { userID } = req.body;
+        const { cartId } = req.params;
 
-        // Fetch cart details from the database for the given userID
-        const cartDetail = await Cart.findOne({ 'userID._id': userID });
+        const cartDetail = await Cart.findById(cartId);
 
         if (!cartDetail) {
             return res.status(404).json({ error: 'Cart not found' });
@@ -64,4 +63,47 @@ exports.getCartDetail = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
+exports.getCart = async (req, res) => {
+    try {
+        const userId = req.params.userId; // Extracting user ID from URL parameter
+        console.log('User ID from URL parameter:', userId);
+
+        // Fetch all cart details from the database for the given userID
+        const cartDetails = await Cart.find({ 'userID._id': userId });
+        console.log('Cart details:', cartDetails);
+
+        if (!cartDetails || cartDetails.length === 0) {
+            return res.status(404).json({ error: 'Carts not found for this user' });
+        }
+
+        res.status(200).json(cartDetails);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+// get cart with id user
+/*exports.getCart = async (req, res) => {
+    try {
+        const userId = req.params.userId; // Extracting user ID from URL parameter
+        console.log('User ID from URL parameter:', userId);
+
+        // Fetch cart details from the database for the given userID
+        const cartDetail = await Cart.findOne({ 'userID._id': userId });
+        console.log('Cart detail:', cartDetail);
+
+        if (!cartDetail) {
+            return res.status(404).json({ error: 'Cart not found' });
+        }
+
+        res.status(200).json(cartDetail);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+*/
+
 
