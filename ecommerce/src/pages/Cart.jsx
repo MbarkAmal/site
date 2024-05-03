@@ -190,7 +190,7 @@ const Cart = () => {
               <Product key={product._id}>
                 <ProductDetail>
                   {/* Assuming img is not provided in the response */}
-                  {/* <Image src={product.img} /> */}
+                   <Image src={`http://localhost:4000/Cart/getphoto/${product._id}`} /> 
                   <Details>
                     <ProductName>
                       <b>Product:</b> {product.productName}
@@ -199,9 +199,9 @@ const Cart = () => {
                       <b>ID:</b> {product._id}
                     </ProductId>
                     <ProductQuantity>
-                      <b>Quantity:</b> {cartItem.quantity} kg {/* Assuming the quantity is the same for all products in the cart */}
+                      <b>Quantity:</b> {cartItem.quantity}  {/* Assuming the quantity is the same for all products in the cart */}
                     </ProductQuantity>
-                    <ProductPrice>{product.price} $</ProductPrice>
+                    <ProductPrice>{product.price} DT</ProductPrice>
                   </Details>
                 </ProductDetail>
                 <PriceDetail>

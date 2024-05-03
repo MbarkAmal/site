@@ -29,7 +29,8 @@ exports.addtocart = async (req, res) => {
             products: [{
                 _id: productId,
                 productName: product.productName,
-                price: product.price
+                price: product.price,
+                photo:product.photo,
             }],
             quantity: quantity,
             total: total, // Set the total price here
@@ -44,6 +45,34 @@ exports.addtocart = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
+
+//get product photo
+
+exports.getProductPhoto = async (req, res) => {
+    try {
+        const { productId } = req.params;
+
+        const product = await Product.findById(productId);
+
+        if (!product) {
+            return res.status(404).json({ success: false, message: 'Product not found' });
+        }
+
+        if (product.photo && product.photo.data) {
+            res.set('Content-Type', product.photo.contentType);
+            return res.status(200).send(product.photo.data);
+        } else {
+            return res.status(404).json({ success: false, message: 'Photo not found for this product ID' });
+        }
+    } catch (err) {
+        console.error('Error while getting product photo by ID:', err);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
+
+
+
 
 //get cart detail
 

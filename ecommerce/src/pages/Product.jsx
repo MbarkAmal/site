@@ -177,7 +177,6 @@ const Product = () => {
     try {
       let user_id = localStorage.getItem('user_data');
   
-      // If user_id is null or an empty string, set it to an empty object
       if (!user_id) {
         user_id = {};
       } else {
@@ -187,7 +186,6 @@ const Product = () => {
   
       console.log(user_id);
   
-      // Send the request with the userID object (either parsed from localStorage or an empty object)
       const response = await axios.post('http://localhost:4000/Cart/addtocart', {
         userID: user_id,
         productId: id,

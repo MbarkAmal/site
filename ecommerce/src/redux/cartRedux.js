@@ -10,7 +10,7 @@ const cartSlice = createSlice({
   },
   reducers: {
     addProduct: (state, action) => {
-      const { productId, productName, price, quantity } = action.payload;
+      const { productId, productName, price, quantity , photo } = action.payload;
       
       // Calculate the total price of the product
       const totalPrice = price * quantity;
@@ -26,7 +26,7 @@ const cartSlice = createSlice({
         state.products[existingProductIndex].totalPrice += totalPrice;
       } else {
         // If the product is not in the cart, add it
-        state.products.push({ productId, productName, price, quantity, totalPrice });
+        state.products.push({ productId, productName, price, quantity, totalPrice , photo});
       }
     
       state.quantity += quantity;
