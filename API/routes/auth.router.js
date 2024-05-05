@@ -8,6 +8,5 @@ route.post('/register', user.register);
 
 route.post('/login',user.login);
 
-route.post('/logindash',user.logindash)
 
 module.exports = route 

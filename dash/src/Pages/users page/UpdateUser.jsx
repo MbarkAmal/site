@@ -15,7 +15,6 @@ const UpdateUser = ()=> {
     const {id} = useParams()
     const users = useSelector (state => state.users.users)
     const user = users.find(u => u.id === id)
-    console.log(user)
 
   
 
@@ -52,35 +51,32 @@ useEffect(() => {
       e.preventDefault();
   
       try {
-          // Create an object containing the updated user data
-          const updatedUserData = {
-              username: username,
-              email: email,
-              password: password,
-              role : role ,
-          };
+        // Create an object containing the updated user data
+        const updatedUserData = {
+          username: username,
+          email: email,
+          password: password,
+          role: role,
+        };
   
-          // Send a PUT request to update the user data
-          const response = await axios.put(`http://localhost:4000/user/updateUser/${id}`, updatedUserData);
+        const response = await axios.put(
+          `http://localhost:4000/user/updateUser/${id}`,
+          updatedUserData
+        );
   
-          // Log the response data for debugging
-          console.log("Update User Response:", response.data);
+        console.log("Update User Response:", response.data);
   
-          // Check if the update was successful (status code 200)
-          if (response.status === 200) {
-              // Dispatch an action to update the user in the Redux store
-              dispatch(updateUser(response.data.user));
-              // Navigate to the '/User' route upon successful update
-              navigate('/User');
-          } else {
-              // Log an error message if the update failed
-              console.error('Failed to update user:', response.statusText);
-          }
+        if (response.status === 200) {
+          dispatch(updateUser(response.data.user));
+          navigate("/User");
+        } else {
+          console.error("Failed to update user:", response.statusText);
+        }
       } catch (error) {
-          // Log any errors that occur during the update process
-          console.error('Error updating user:', error);
+        console.error("Error updating user:", error);
       }
-  }
+    };
+  
   
       
 
@@ -115,7 +111,7 @@ useEffect(() => {
               <h2>Update User detail </h2>
             </div>
     
-            <form  className="formSection"  onSubmit={handleUpdate}>
+            <form  className="formSection"   onSubmit={handleUpdate}>
               <div className="row">
                 <div className="col-25">
                   <label htmlFor="Username">User Name</label>
@@ -210,11 +206,11 @@ useEffect(() => {
               </div> 
             */}
 
+<button className="btn" type="submit"  > Update </button>
 
          
             </form>
             <div className="buttons flex">
-            <button className="btn" type="submit"  > Update </button>
           </div>
           </div>
         </div>

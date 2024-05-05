@@ -7,6 +7,10 @@ const UserSchema = new mongoose.Schema(
       required: true,
      unique: true,
     },
+    photo_user: {
+      data: Buffer,
+      contentType: String ,   
+     },
     email: {
       type: String,
       required: true,

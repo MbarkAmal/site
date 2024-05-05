@@ -17,6 +17,10 @@ import img2 from'../../../Assets/img.jpg'
 
 const Top = () => {
   const [ordersCount, setOrdersCount] = useState('');
+  const userDataString = localStorage.getItem('user_data');
+  const userData = JSON.parse(userDataString);
+
+console.log(userData.username);
 
  /* useEffect(() => {
     fetch('http://localhost:4000/Orders/countorder')
@@ -40,7 +44,7 @@ const Top = () => {
       <div className="headerSection flex">
         <div className="title">
           <h1>Welcome to ....</h1>
-          <p>Hello Admin, Welcome back!</p>
+          <p>Hello {userData.username}, Welcome back!</p>
         </div>
 
         <div className="searchBar flex">

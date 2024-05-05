@@ -31,7 +31,7 @@ const Sidebar = () => {
         <ul className='menuLists grid'>
 
           <li className='listItem'>
-          <Link to={'/'} className='menuLink felx'>
+          <Link to={'/dash'} className='menuLink felx'>
               <IoMdSpeedometer className='icon' />
               <span className='smallText'>
                   Dashbord

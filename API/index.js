@@ -16,12 +16,14 @@ app.get('/',(req,res)=> {
 const productRouter = require ('./routes/product.router');
 const cartRouter = require ('./routes/cart.router');
 const authRouter = require ('./routes/auth.router');
+const adminRouter = require('./routes/admin.router');
 const userRouter = require('./routes/user.router');
 const staticRouter = require('./routes/static.router')
 
 app.use('/Products',productRouter)
 app.use('/Cart',cartRouter)
 app.use('/auth',authRouter)
+app.use('/admin',adminRouter)
 app.use('/user',userRouter)
 app.use('/static',staticRouter)
 
