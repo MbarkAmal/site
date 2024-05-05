@@ -22,6 +22,7 @@ const UpdateUser = ()=> {
     const [username , setUsername] = useState('')
     const [email , setEmail] = useState('')
     const [password , setPassword] = useState('')
+    const [role , setRole] = useState('')
   //  const [photo_user , setPhoto_user] = useState ('')
     const navigate = useNavigate();
 
@@ -29,10 +30,11 @@ const getsingleUser = async (id) =>{
 
   try {
     const {data} = await axios.get(`http://localhost:4000/user/getoneuser/${id}`);
-    const {username , email , password ,photo_user} = data.result;
+    const {username , email , password ,role,photo_user} = data.result;
     setUsername(username);
     setEmail(email);
     setPassword (password);
+    setRole(role);
   //  setPhoto_user(photo_user);
 
   } catch (err){
@@ -54,7 +56,8 @@ useEffect(() => {
           const updatedUserData = {
               username: username,
               email: email,
-              password: password
+              password: password,
+              role : role ,
           };
   
           // Send a PUT request to update the user data
@@ -166,12 +169,18 @@ useEffect(() => {
            
               <div className="row">
                 <div className="col-25">
-                  <label htmlFor="stock">Poste</label>
+                  <label htmlFor="role">Role </label>
                 </div>
                 <div className="col-75">
-                  <input
-                    type="text"
-                    placeholder="poste.." />
+                  <select
+                    name="role"
+                    value = {role}
+                    onChange={(e) => setRole(e.target.value)}>
+
+                      <option value="">edit role</option>
+                      <option value="user">User</option>
+                      <option value="admin">Admin</option>
+                    </select>
                 </div>
               </div>
            {  /* <div className="row">
@@ -202,12 +211,11 @@ useEffect(() => {
             */}
 
 
-              <div className="update_btn">
-                <button className="btnUP" type="submit">
-                  Update details
-                </button>
-              </div>
+         
             </form>
+            <div className="buttons flex">
+            <button className="btn" type="submit"  > Update </button>
+          </div>
           </div>
         </div>
       );

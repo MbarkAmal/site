@@ -31,11 +31,22 @@ const fetchData = async (dispatch) => {
 const Product = () => {
   const dispatch = useDispatch();
   const products = useSelector (state => state.products.products);
+  const [categoryFilter, setCategoryFilter] = useState('');
+
 
   useEffect(() => {
     // Fetch products from backend when component mounts
     fetchData(dispatch);
   }, [dispatch]);
+
+  //
+  const handleCategoryChange = (event)=> {
+    const category = event.target.value;
+    setCategoryFilter(category);
+  };
+  const filterProducts = categoryFilter 
+  ? products.filter(product => product.category.toLowerCase() === categoryFilter.toLowerCase()) 
+  : products;
 
   // delete function
   const handleDelete = async (id) => {
@@ -102,10 +113,11 @@ const Product = () => {
             </div>
 
             <div>
-              <select name="category">
+              <select name="category" value={categoryFilter} onChange={handleCategoryChange}>
                 <option value="">category</option>
-                <option value="pending">Date</option>
-                <option value="delivered">dry_fruit</option>
+                <option value="Date">Date</option>
+                <option value="Dry_fruit">dry_fruit</option>
+                <option value="Nuts" >Nuts</option>
               </select>
             </div>
 
@@ -125,8 +137,8 @@ const Product = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {products.length > 0 ? (
-                    products.map((product, index) => (
+                  {filterProducts.length > 0 ? (
+                    filterProducts.map((product, index) => (
                       <tr key={index}>
                         <td style={{ color: 'var(--PrimaryColor)' }}>#{index + 1}</td>
                         <td>

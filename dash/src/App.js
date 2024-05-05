@@ -12,14 +12,15 @@ import DeliveryRapport from './static/DeliveryRapport';
 import ProductsChart from './static/ProductsChart';
 import DeliveredProducts from './static/DeliveredProducts';
 import AdminProfile from './Pages/admin page/AdminProfile';
-
+import Login from "./Pages/login/Login";
 import TotalPrice from './static/TotalPrice';
 
 const App = () => {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<Login/>}/>
+                <Route path="/dash" element={<Home />} />
                 <Route path="/AdminProfile" element={<AdminProfile/>}/>
                 <Route path="/Product" element={<Product />} />
                 <Route path="/Product/AddProduct" element={<AddProduct />} />

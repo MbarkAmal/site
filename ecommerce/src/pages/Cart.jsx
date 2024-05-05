@@ -167,6 +167,16 @@ const Cart = () => {
     // Call the fetchCart function
     fetchCart();
   }, []); // Empty dependency array ensures useEffect runs only once
+
+  const calculateSubtotal = (cart) => {
+    console.log('Cart:', cart); // Check if cart is properly received
+    let subtotal = 0;
+    cart?.forEach(cartItem => { // Use optional chaining to safely access nested properties
+        subtotal += cartItem.total;
+      });
+    return subtotal;
+  
+  };
   
   return (
     <Container>
@@ -211,7 +221,7 @@ const Cart = () => {
                   </ProductAmountContrainer>
                   <ProductPrice>
                     {/* Assuming product.price and cartItem.quantity are numbers */}
-                    {product.price * cartItem.quantity} $
+                    {cartItem.total} $
                   </ProductPrice>
                 </PriceDetail>
               </Product>
@@ -226,8 +236,8 @@ const Cart = () => {
         {/* Assuming you need to calculate the total price for all cart items */}
         <SummaryItem>
           <SummaryItemText>Subtotal</SummaryItemText>
-          <SummaryItemPrice>$ </SummaryItemPrice>
-        </SummaryItem>
+          <SummaryItemPrice>${calculateSubtotal(cart)}</SummaryItemPrice>    
+              </SummaryItem>
         <SummaryItem>
           <SummaryItemText>Estimated shipping </SummaryItemText>
           <SummaryItemPrice>$ 5</SummaryItemPrice>
@@ -249,6 +259,8 @@ const Cart = () => {
 </Container>
 
   );
+
+  
 };
 
 

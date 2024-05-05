@@ -134,10 +134,9 @@ const User = () => {
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Photo </th>
+                  { /* <th>Photo </th>*/}
                     <th>User Name</th>
                     <th>Email</th>
-                    <th>Password</th>
 
                     <th>Role</th>
                    <th>Created AT</th>
@@ -149,14 +148,15 @@ const User = () => {
               users.map((user, index) => (
                 <tr key={index}>
                   <td style={{ color: 'var(--PrimaryColor)' }}>#{index+1}</td>
-                  <td>
+                { /* <td>
                     <img src={`http://localhost:4000/User/userPhoto/${user.id}`} alt={user.name}
                      style={{ width: '40px' , height: '40px' , objectFit : 'cover' , borderRadius: '40%' , boxShadow :' 0 2px 4px ' , marginLeft : '1rem' }} />
                   </td>
+                  */}
                   <td>{user.username}</td>
                   <td>{user.email}</td>
-                  <td style={{ wordBreak :'break-word' }}>{user.password}</td>
-                  <td>user</td>
+               { /*  <td style={{ wordBreak :'break-word' }}>{user.password}</td> */}
+                  <td>{user.role}</td>
                 <td>{user.createdAt}</td>
                   <td>
               <div className="buttons flex">

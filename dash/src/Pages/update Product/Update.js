@@ -110,8 +110,36 @@ const Update = () => {
         <div className="formContent flex">
           <h2>Update Product details</h2>
         </div>
+       
 
         <form className="formSection" onSubmit={handleUpdate}>
+
+
+                <div className="row">
+                <div className="col-25" style={{paddingLeft:"25%" }}>
+
+
+
+                {photo && photo instanceof File ? (
+                <img src={URL.createObjectURL(photo)} alt="Uploaded"  style={{ width: '170px', height: '190px', display: 'flex', borderRadius: '30%' }} />
+                ) : (
+                <img  src={`http://localhost:4000/Products/productPhoto/${id}`}
+                style={{ width: '170px', height: '190px', display: 'flex', borderRadius: '25%' }} />
+                  )}
+                  </div>
+
+              
+  <div className="col-75" style={{ paddingTop:"10%" , paddingLeft:"20%"}}>
+
+                <label htmlFor="file-upload" className="file-upload"
+                style={{  border: '1px solid #ccc', color: 'black' , cursor:"pointer" }}>photo upload </label>
+                <input id="file-upload" type="file" accept="image/*" 
+                onChange={(e) => setPhoto(e.target.files[0])}
+                style={{ display: 'none' }}  />
+                  </div>
+
+                </div>
+
           <div className="row">
             <div className="col-25">
               <label htmlFor="productName" >Product  </label>
@@ -171,23 +199,22 @@ const Update = () => {
             </div>
           </div>
           <div className="row">
-  <div className="col-25">
-    <label htmlFor="category">Category</label>
-  </div>
-  <div className="col-75">
+            <div className="col-25">
+              <label htmlFor="category">Category</label>
+            </div>
+            <div className="col-75">
              <select
                 name="category"
                 value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              >
+                onChange={(e) => setCategory(e.target.value)} >
                 <option value="">Select category</option>
                 <option value="Dry_fruit">Dry Fruits</option>
                 <option value="Date">Dates</option>
                 <option value="Nuts">Nuts</option>
 
               </select>
-  </div>
-</div>
+                </div>
+              </div>
 
           <div className="row">
             <div className="col-25">
@@ -203,31 +230,8 @@ const Update = () => {
               />
             </div>
           </div>
-          <div className="row">
-            <div className="col-25">
-              <label htmlFor="photo">Image</label>
-            </div>
-            <div className="col-75">
-              <input type="file" accept="image/*" 
-               onChange={(e) => setPhoto(e.target.files[0])}/>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-25">
-              <label htmlFor="photo">Image</label>
-            </div>
-            {photo && photo instanceof File ? (
-              <div className="col-75">
-              <img src={URL.createObjectURL(photo)} alt="Uploaded" style={{ width: '170px', height: '190px', display: 'flex', borderRadius: '10px' }} />
-          </div>
-      ) : (
-            <div> 
-              <img  src={`http://localhost:4000/Products/productPhoto/${id}`}
-                      style={{ width: '170px', height: '190px',  paddingTop : '10px', display: 'flex', borderRadius: '10px' }}/>
-            </div>
-)}
+         
 
-          </div>
           <div className="buttons flex">
             <button className="btn" type="submit"  > Update </button>
           </div>
