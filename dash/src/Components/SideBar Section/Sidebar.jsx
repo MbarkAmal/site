@@ -1,4 +1,6 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
+
 import  './sidebar.css'
 import './Sidebar.scss'
 import { Link } from 'react-router-dom'
@@ -13,10 +15,24 @@ import { MdOutlineExplore } from "react-icons/md";
 import { BsQuestionCircle } from "react-icons/bs";
 import { FaUserCheck } from "react-icons/fa";
 import { MdProductionQuantityLimits } from "react-icons/md";
+import { TbLogout2  } from "react-icons/tb";
+
+
+
 
 
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Clear user data from local storage
+    localStorage.removeItem("user_data");
+    localStorage.removeItem("token");
+    navigate('/');
+    window.location.reload(); // Refresh the page
+  };
+
   return (
     <div className='sideBar grid'>
       <div className='logoDiv flex'>
@@ -107,13 +123,14 @@ const Sidebar = () => {
           </li>
 
           <li className='listItem'>
-            <a href='#' className='menuLink felx'>
-              <MdOutlineExplore  className='icon' />
-              <span className='smallText'>
-                  builing
-                </span>
-            </a>
-          </li>
+          <a href =''className='menuLink felx' onClick={handleLogout}>
+            <TbLogout2   className='icon' />
+            <span className='smallText'>
+              Logout
+            </span>
+          </a>
+        </li>
+
 
         </ul>
       </div>

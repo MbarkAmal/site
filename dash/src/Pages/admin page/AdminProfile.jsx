@@ -12,12 +12,13 @@ const AdminProfile = () => {
   
   const [username , setUsername] = useState('')
   const [email , setEmail] = useState('')
-  const [password , setPassword] = useState('')
   const [role , setRole] = useState('')
   const [photo, setPhoto] = useState(null);
   const [saveimg, setSaveimg] = useState(false);
   const dispatch = useDispatch()
   const navigate = useNavigate();
+ // const userDataString = localStorage.getItem("user_data");
+  //const userData = JSON.parse(userDataString);
 
 
   const handleFileChange = (e) => {
@@ -32,39 +33,57 @@ const AdminProfile = () => {
     console.log("Photo saved:", photo);
     setSaveimg(false);
   };
-  const userDataString = localStorage.getItem('user_data');
-  const userData = JSON.parse(userDataString);
 
-  //update admin detail
-  const handleUpdate = async (id) => {
-    //e.preventDefault();
+  useEffect(() => {
+    const userDataString = localStorage.getItem("user_data");
+    const userData = JSON.parse(userDataString);
+    if (userData) {
+      setUsername(userData.username);
+      setEmail(userData.email);
+      setRole(userData.role);
+    }
+  }, []);
+
+  const handleUpdate = async () => {
     try {
       const updateAdminData = {
         username: username,
         email: email,
         role: role,
       };
+
+      const userDataString = localStorage.getItem("user_data");
+      const userData = JSON.parse(userDataString);
+
       const response = await axios.put(
-        `http://localhost:4000/user/updateUser/${id}`,
+        `http://localhost:4000/user/updateUser/${userData._id}`,
         updateAdminData
       );
       console.log("Updated admin:", response.data);
+      
       if (response.status === 200) {
-        // Dispatch an action to update the user in the Redux store
         dispatch(updateUser(response.data.user));
-        // Navigate to the '/User' route upon successful update
-        navigate("/User");
+        // Optionally, log out after updating
+        handleLogout();
+        //navigate('/');
       } else {
         console.error("Failed to update user:", response.statusText);
-        // Optionally, provide feedback to the user about the failed update
       }
     } catch (error) {
       console.error("Error updating user:", error);
-      // Optionally, provide feedback to the user about the error
     }
   };
-  
+  const handleLogout = () => {
+    // Clear user data from local storage
+    localStorage.removeItem("user_data");
+    localStorage.removeItem("token");
+    navigate('/') 
+ };
 
+  const handleFormSubmit = (e) => {
+    e.preventDefault(); 
+    handleUpdate(); 
+  }; 
 
 
 
@@ -82,8 +101,8 @@ const AdminProfile = () => {
             )}
           </div>
           <div className="admin_detail">
-            <h2>{userData.username} </h2>
-            <p>{userData.email} - Administrator</p>
+            <h2>{username} </h2>
+            <p>{email} - Administrator</p>
             <div className="edit_photo">
               <label htmlFor="file-upload" className="file-upload">
                 photo Upload
@@ -98,13 +117,15 @@ const AdminProfile = () => {
           <div className="detail_accunt">
             <h2>Account Details</h2>
          
-            <form className="formSection">
+            <form className="formSection" onSubmit={handleFormSubmit}>
             <div className="row">
             <div className="col-25">
               <label htmlFor="productName">Username</label>
             </div>
             <div className="col-75">
-            {userData && <input type="text" value={userData.username}  readOnly />}
+           <input type="text"
+              value={username}
+            onChange={(e) => setUsername(e.target.value)}      />
 
             </div>
            </div>
@@ -114,7 +135,8 @@ const AdminProfile = () => {
               <label htmlFor="productName">Email</label>
             </div>
             <div className="col-75">
-            {userData && <input type="text" value={userData.email}  readOnly />}
+             <input type="text" value={email} 
+             onChange={(e) => setEmail(e.target.value)}  />
             </div>
            </div>
            <div className="row">
@@ -122,51 +144,20 @@ const AdminProfile = () => {
                 <label htmlFor="">Role</label>
               </div>
               <div className="col-75">
-              {userData && (
-                  <select name="role" value={userData.role} > 
+              
+                  <select name="role" value={role}            
+                    onChange={(e) => setRole(e.target.value)} >
+ 
                     <option value="role">Role</option>
                     <option value="user">User</option>
                     <option value="admin">Admin</option>
                   </select>
-                )}
+                
               </div>
             </div>
 
-           <div className="row">
-            <div className="col-25">
-              <label htmlFor="productName">Password </label>
-            </div>
-            <div className="col-75">
-            <input
-                type="text" />
-            </div>
-           </div>
-
-           <div className="row">
-            <div className="col-25">
-              <label htmlFor="productName">Full Name</label>
-            </div>
-            <div className="col-75">
-              <input
-                type="text" />
-            </div>
-           </div>
-
-       
-
-           <div className="row">
-            <div className="col-25">
-              <label htmlFor="">Phone Number</label>
-            </div>
-            <div className="col-75">
-              <input
-                type="tel" />
-            </div>
-           </div>
-           
-
            <div className="update_btn">
-            <button className="btnUP" type="submit"  onClick={() => handleUpdate(id)}>
+            <button className="btnUP" type="submit"  >
               Update Profile
             </button>
           </div>

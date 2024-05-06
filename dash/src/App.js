@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Import necessary components from react-router-dom
+import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Product from '../src/Pages/products page/Product';
 import User from '../src/Pages/users page/User';
 import UpdateUser from '../src/Pages/users page/UpdateUser';
@@ -16,28 +16,36 @@ import Login from "./Pages/login/Login";
 import TotalPrice from './static/TotalPrice';
 
 const App = () => {
+    const [userData, setUserData] = useState(null);
+
+    useEffect(() => {
+        const userDataString = localStorage.getItem("user_data");
+        const userData = JSON.parse(userDataString);
+        setUserData(userData);
+    }, []);
+
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Login/>}/>
-                <Route path="/dash" element={<Home />} />
-                <Route path="/AdminProfile" element={<AdminProfile/>}/>
-                <Route path="/Product" element={<Product />} />
-                <Route path="/Product/AddProduct" element={<AddProduct />} />
-                <Route path="/Product/UpdateProduct/:id" element={<Update />} />
-                <Route path="/User" element={<User />} />
-                <Route path="/UpdateUser/:id" element={<UpdateUser />} />
-
-                <Route path="/Order" element={<Order/>} />
-
-                <Route path="/OrderChart" element= {<OrderChart/>}/>
-                <Route path="/DeliveryRapport" element= {<DeliveryRapport/>}/>
-
-                <Route path="/TotalPrice" element= {<TotalPrice/>}/>
-
-                <Route path="/ProductsChart" element= { <ProductsChart/>}/>
-                <Route path="/DeliveredProducts" element= { <DeliveredProducts/>}/>
-
+                {userData ? (
+                    <>
+                        <Route path="/dash" element={<Home />} />
+                        <Route path="/AdminProfile" element={<AdminProfile />} />
+                        <Route path="/Product" element={<Product />} />
+                        <Route path="/Product/AddProduct" element={<AddProduct />} />
+                        <Route path="/Product/UpdateProduct/:id" element={<Update />} />
+                        <Route path="/User" element={<User />} />
+                        <Route path="/UpdateUser/:id" element={<UpdateUser />} />
+                        <Route path="/Order" element={<Order />} />
+                        <Route path="/OrderChart" element={<OrderChart />} />
+                        <Route path="/DeliveryRapport" element={<DeliveryRapport />} />
+                        <Route path="/TotalPrice" element={<TotalPrice />} />
+                        <Route path="/ProductsChart" element={<ProductsChart />} />
+                        <Route path="/DeliveredProducts" element={<DeliveredProducts />} />
+                    </>
+                ) : (
+                    <Route path="/" element={<Login />} />
+                )}
             </Routes>
         </Router>
     );

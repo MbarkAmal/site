@@ -27,8 +27,9 @@ const Login = () => {
             // Dispatch login action
             // dispatch(login(response.data));
 
-            // Redirect to home page
             navigate('/dash');
+            window.location.reload(); // Refresh the page
+
         } catch (error) {
             console.error('Error during login:', error);
             // Handle error, maybe set error state to display error message
