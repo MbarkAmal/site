@@ -6,7 +6,7 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { mobile } from "../responsive";
 import { red } from "@mui/material/colors";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
 const Container = styled.div`
   height: 60px;
   ${mobile({ height: "50px" })}
@@ -74,6 +74,18 @@ const Navbar = () => {
     setConnectuser (JSON.parse(localStorage.getItem("user_data")))
   }*/
 }
+const navigate = useNavigate();
+
+const handleLogout = () => {
+  localStorage.removeItem("user_data");
+  localStorage.removeItem("token");
+  navigate('/login');
+  window.location.reload();
+
+};
+
+const isLoggedIn = !!localStorage.getItem("user_data"); 
+
 
   useEffect(() =>{
    // getuser();
@@ -94,16 +106,20 @@ const Navbar = () => {
 
         </Center>
         <Right>
-          <Link to="/register">
-            <MenuItem>Register</MenuItem>
-          </Link>
-          <Link to="/login">
-            <MenuItem>Log In</MenuItem>
-          </Link>
-          <Link>
-          <MenuItem></MenuItem>
-
-          </Link>
+          {isLoggedIn ? (
+            <Link>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Link>
+          ) : (
+            <>
+              <Link to="/register">
+                <MenuItem>Register</MenuItem>
+              </Link>
+              <Link to="/login">
+                <MenuItem>Log In</MenuItem>
+              </Link>
+            </>
+          )}
           <Link to="/cart">
             <MenuItem>
               <Badge badgeContent={quantity} color="primary">

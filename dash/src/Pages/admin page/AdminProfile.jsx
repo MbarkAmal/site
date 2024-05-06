@@ -63,7 +63,6 @@ const AdminProfile = () => {
       
       if (response.status === 200) {
         dispatch(updateUser(response.data.user));
-        // Optionally, log out after updating
         handleLogout();
         //navigate('/');
       } else {
@@ -74,7 +73,6 @@ const AdminProfile = () => {
     }
   };
   const handleLogout = () => {
-    // Clear user data from local storage
     localStorage.removeItem("user_data");
     localStorage.removeItem("token");
     navigate('/') 

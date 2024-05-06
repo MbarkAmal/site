@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
@@ -10,7 +11,7 @@ import { mobile } from "../responsive";
 import ReactDOM from "react-dom";
 import Remove from "@mui/icons-material/Remove";
 import { useSelector } from "react-redux";
-import { useParams } from 'react-router-dom'; // Import useParams hook from React Router
+import { useParams } from 'react-router-dom';
 
 
 // Add your Stripe public key here
@@ -39,6 +40,7 @@ const TopButton = styled.button`
     props.type === "filled" ? "black" : "transparent"};
   color: ${(props) => props.type === "filled" && "white"};
 `;
+
 const TopTexts = styled.div`
   ${mobile({ display: "none" })}
 `;
@@ -141,37 +143,33 @@ const Cart = () => {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        // Retrieve user data from local storage
         const userData = JSON.parse(localStorage.getItem('user_data'));
         
         if (userData && userData._id) {
-          // Extract user ID from user data
           const storedUserId = userData._id;
           console.log(storedUserId)
   
-          // Make a GET request to fetch cart details for the user ID from local storage
           const response = await axios.get(`http://localhost:4000/Cart/getcart/${storedUserId}`);
-          setCart(response.data); // Update the cart state with fetched data
+          setCart(response.data); 
           console.log(response.data)
         } else {
           console.error('User data or user ID not found in local storage');
         }
   
-        setLoading(false); // Set loading to false once data is fetched
+        setLoading(false); 
       } catch (error) {
         console.error('Error fetching cart:', error);
-        setLoading(false); // Set loading to false in case of error
+        setLoading(false); 
       }
     };
   
-    // Call the fetchCart function
     fetchCart();
-  }, []); // Empty dependency array ensures useEffect runs only once
-
+  }, []);
+// count total product 
   const calculateSubtotal = (cart) => {
-    console.log('Cart:', cart); // Check if cart is properly received
+    console.log('Cart:', cart); 
     let subtotal = 0;
-    cart?.forEach(cartItem => { // Use optional chaining to safely access nested properties
+    cart?.forEach(cartItem => {
         subtotal += cartItem.total;
       });
     return subtotal;
@@ -185,7 +183,7 @@ const Cart = () => {
   <Wrapper>
     <Title>YOUR BAG</Title>
     <Top>
-      <TopButton>CONTINUE SHOPPING</TopButton>
+        <TopButton><Link to="/">CONTINUE SHOPPING </Link></TopButton>
       <TopTexts>
         <TopText>Shopping Bag(2)</TopText> {/* You can replace the '2' with the actual length of the cart */}
         <TopText>Your WishList(0)</TopText>
