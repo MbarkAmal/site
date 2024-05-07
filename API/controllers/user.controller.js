@@ -38,10 +38,16 @@ exports.updateUser = async (req, res) => {
         };
 
         // Check if the role is being updated to "admin"
-        if (role && role.toLowerCase() === "admin") {
-            updateData.isAdmin = true; // Set isAdmin to true
-        } else {
-            updateData.isAdmin = false; // Set isAdmin to false for other roles
+        // Check if role is being updated and update isAdmin accordingly
+        const existingUser = await user.findById(req.params.id);
+
+        // If role is being updated, update isAdmin accordingly
+        if (role && existingUser.role !== role.toLowerCase()) {
+          if (role.toLowerCase() === "admin") {
+            updateData.isAdmin = true;
+          } else {
+            updateData.isAdmin = false;
+          }
         }
 
         const updatedUser = await user.findByIdAndUpdate(

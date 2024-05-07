@@ -233,12 +233,19 @@ const Update = () => {
          
 
           <div className="buttons flex">
-            <button className="btn" type="submit"  > Update </button>
+            <button className="btn" type="submit"  > save change </button>
           </div>
         </form>
+ 
+
+      
       </div>
     </div>
+
+    
+    
   );
+  
 };
 
 

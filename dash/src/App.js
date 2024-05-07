@@ -29,6 +29,7 @@ const App = () => {
             <Routes>
                 {userData ? (
                     <>
+                        <Route path="/login" element={<Login />} />
                         <Route path="/dash" element={<Home />} />
                         <Route path="/AdminProfile" element={<AdminProfile />} />
                         <Route path="/Product" element={<Product />} />
@@ -44,7 +45,7 @@ const App = () => {
                         <Route path="/DeliveredProducts" element={<DeliveredProducts />} />
                     </>
                 ) : (
-                    <Route path="/" element={<Login />} />
+                    <Route path="/login" element={<Login />} />
                 )}
             </Routes>
         </Router>

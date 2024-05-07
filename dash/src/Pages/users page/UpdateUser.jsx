@@ -206,8 +206,9 @@ useEffect(() => {
               </div> 
             */}
 
-<button className="btn" type="submit"  > Update </button>
-
+         <div className="buttons flex">
+            <button className="btn" type="submit"  > save change </button>
+          </div>
          
             </form>
             <div className="buttons flex">

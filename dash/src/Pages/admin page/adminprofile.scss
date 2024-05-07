@@ -52,10 +52,10 @@
 .btnUP {
   align-items: center;
   appearance: none;
-  background-color: #fff;
-  border-radius: 24px;
-  border-style: none;
-  box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px,rgba(0, 0, 0, .14) 0 6px 10px 0,rgba(0, 0, 0, .12) 0 1px 18px 0;
+  background-color: rgba(51, 51, 51, 0.05);
+  border: 2px rgba(51, 51, 51, 0.05);
+  border-radius: 15px;
+ // box-shadow: rgba(96, 93, 93, 0.2) 0 3px 5px -1px,rgba(0, 0, 0, .14) 0 6px 10px 0,rgba(0, 0, 0, .12) 0 1px 18px 0;
   box-sizing: border-box;
   color: #3c4043;
   cursor: pointer;
@@ -82,20 +82,7 @@
   z-index: 0;
 }
 
-.btnUP:hover {
-  background: #F6F9FE;
-  color: #174ea6;
-}
 
-.btnUP:active {
-  box-shadow: 0 4px 4px 0 rgb(60 64 67 / 30%), 0 8px 12px 6px rgb(60 64 67 / 15%);
-  outline: none;
-}
-
-.btnUP:focus {
-  outline: none;
-  border: 2px solid #4285f4;
-}
 
 
 

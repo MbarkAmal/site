@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -17,6 +18,7 @@ const Login = () => {
                 username: username,
                 password: password
             });
+            toast.success('Successfully logged in!!');
 
             console.log(response);
 
@@ -37,7 +39,9 @@ const Login = () => {
     };
 
     return (
+        
         <div className="container">
+            
 
         <div
             style={{
@@ -48,6 +52,7 @@ const Login = () => {
                 justifyContent: "center",
             }} >
               
+              <Toaster/>
 
             <input
                 style={{ padding: 10, marginBottom: 20 }}
@@ -61,7 +66,7 @@ const Login = () => {
                 placeholder="password"
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <button onClick={handleClick} style={{ padding: 10, width: 100 }}>
+            <button onClick={handleClick} style={{ padding: 10, width: 100 ,   cursor: 'pointer'}}>
                 Login
             </button>
         </div>

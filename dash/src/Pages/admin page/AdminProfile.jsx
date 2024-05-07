@@ -75,7 +75,7 @@ const AdminProfile = () => {
   const handleLogout = () => {
     localStorage.removeItem("user_data");
     localStorage.removeItem("token");
-    navigate('/') 
+    navigate('/login') 
  };
 
   const handleFormSubmit = (e) => {

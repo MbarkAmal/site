@@ -156,7 +156,7 @@ const User = () => {
                   <td>{user.username}</td>
                   <td>{user.email}</td>
                { /*  <td style={{ wordBreak :'break-word' }}>{user.password}</td> */}
-                  <td>{user.role}</td>
+                  <td style={{ color: roleColor(user.role)}} >{user.role}</td>
                 <td>{user.createdAt}</td>
                   <td>
               <div className="buttons flex">
@@ -184,4 +184,12 @@ const User = () => {
   );
 };
 
+const roleColor = (role) => {
+  switch (role) {
+    case "admin":
+      return 'red';
+    case 'user':
+      return 'green';
+  }
+}
 export default User;
